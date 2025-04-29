@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thena AI | Intelligent Customer Engagement</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="images/Thena logo.svg">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+  
+  <!-- Typewriter Effect Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Typewriter effect for hero title
+      const heroTitle = document.querySelector('.hero-title');
+      const heroTitleText = heroTitle.textContent;
+      heroTitle.innerHTML = '';
+      
+      // Add cursor element
+      const cursor = document.createElement('span');
+      cursor.classList.add('typing-cursor');
+      heroTitle.appendChild(cursor);
+      
+      let typewriterDelay = 50; // milliseconds between characters
+      let currentCharIndex = 0;
+      
+      function typeNextCharacter() {
+        if (currentCharIndex < heroTitleText.length) {
+          // Remove cursor
+          heroTitle.removeChild(cursor);
+          
+          // Add next character
+          heroTitle.innerHTML += heroTitleText.charAt(currentCharIndex);
+          
+          // Add cursor back
+          heroTitle.appendChild(cursor);
+          
+          currentCharIndex++;
+          setTimeout(typeNextCharacter, typewriterDelay);
+        }
+      }
+      
+      // Start the typewriter effect
+      setTimeout(typeNextCharacter, 500);
+      
+      // Add subtle animation to background elements
+      const bgElements = document.querySelectorAll('.hero-bg-element');
+      bgElements.forEach((element, index) => {
+        element.style.animation = `float-particle ${8 + index * 2}s ease-in-out infinite ${index * 0.5}s`;
+      });
+    });
+  </script>
+  
+  <style>
+    :root {
+      --primary: #6A00FF;
+      --primary-dark: #3B01B7;
+      --secondary: #00E0FF;
+      --accent: #FF3366;
+      --dark: #0D0A1F;
+      --light: #F8F9FC;
+      --gray: #64748b;
+      --gray-light: #e2e8f0;
+      
+      --gradient-1: linear-gradient(135deg, #6A00FF, #3B01B7);
+      --gradient-2: linear-gradient(135deg, #00E0FF, #6A00FF);
+      --gradient-3: linear-gradient(135deg, #FF3366, #6A00FF);
+      
+      --shadow-sm: 0 4px 6px -1px rgba(106, 0, 255, 0.05);
+      --shadow-md: 0 10px 15px -3px rgba(106, 0, 255, 0.07);
+      --shadow-lg: 0 20px 25px -5px rgba(106, 0, 255, 0.05);
+      
+      --border-radius: 4px;
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+      font-weight: 400;
+    }
+    
+    h1, h2, h3, h4, h5 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    
+    /* Header */
+    header {
+      padding: 1.5rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      background-color: rgba(248, 250, 252, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .logo img {
+      height: 32px;
+      width: auto;
+      margin-right: 0.5rem;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    
+    .nav-link {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      text-transform: none;
+    }
+    
+    .nav-link:hover {
+      color: var(--primary);
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gradient-1);
+      transition: var(--transition);
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .cta-button {
+      background: var(--gradient-1);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.01em;
+      box-shadow: 0 8px 16px rgba(106, 0, 255, 0.15);
+      border-radius: var(--border-radius);
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(106, 0, 255, 0.2);
+    }
+    
+    .secondary-button {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      padding: 0.7rem 1.5rem;
+      font-size: 0.95rem;
+      border-radius: var(--border-radius);
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-block;
+      letter-spacing: 0.01em;
+    }
+    
+    .secondary-button:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(106, 0, 255, 0.15);
+    }
+    
+    /* Hero Section */
+    .hero {
+      padding-top: 10rem;
+      padding-bottom: 8rem;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(106, 0, 255, 0.02), rgba(59, 1, 183, 0.04));
+      margin-bottom: -1px; /* Ensure seamless connection with next section */
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(106, 0, 255, 0.02) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(59, 1, 183, 0.03) 0%, transparent 50%);
+      z-index: 1;
+    }
+    
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 5;
+    }
+    
+    .hero-text {
+      max-width: 100%;
+      position: relative;
+    }
+    
+    .hero-title {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--gray);
+      margin-bottom: 2rem;
+      font-weight: 400;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    
+    .hero-buttons .cta-button {
+      padding: 0.8rem 1.8rem;
+      font-size: 1rem;
+      letter-spacing: 0.01em;
+      box-shadow: 0 10px 20px rgba(106, 0, 255, 0.2);
+    }
+    
+    .hero-buttons .secondary-button {
+      padding: 0.8rem 1.8rem;
+      font-size: 1rem;
+      border-radius: var(--border-radius);
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-block;
+      letter-spacing: 0.01em;
+    }
+    
+    /* Typewriter Effect */
+    .typing-cursor {
+      display: inline-block;
+      width: 4px;
+      height: 1.2em;
+      background-color: var(--primary);
+      margin-left: 4px;
+      animation: cursor-blink 1s infinite;
+      vertical-align: text-bottom;
+    }
+    
+    @keyframes cursor-blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    
+    /* Elegant background elements */
+    .hero-bg-element {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(106, 0, 255, 0.04), rgba(59, 1, 183, 0.06));
+      filter: blur(60px);
+      z-index: 1;
+    }
+    
+    .hero-bg-element:nth-child(1) {
+      width: 500px;
+      height: 500px;
+      top: -150px;
+      left: -100px;
+      opacity: 0.4;
+    }
+    
+    .hero-bg-element:nth-child(2) {
+      width: 400px;
+      height: 400px;
+      bottom: -100px;
+      right: -50px;
+      opacity: 0.3;
+    }
+    
+    .hero-bg-element:nth-child(3) {
+      width: 300px;
+      height: 300px;
+      top: 40%;
+      left: 25%;
+      transform: translateY(-50%);
+      opacity: 0.2;
+    }
+    
+    /* Floating particles */
+    .hero-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      overflow: hidden;
+    }
+    
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(106, 0, 255, 0.15);
+      z-index: 2;
+    }
+    
+    .particle:nth-child(1) {
+      top: 20%;
+      left: 20%;
+      width: 6px;
+      height: 6px;
+      animation: float-particle 12s ease-in-out infinite;
+    }
+    
+    .particle:nth-child(2) {
+      top: 30%;
+      left: 70%;
+      animation: float-particle 15s ease-in-out infinite 1s;
+    }
+    
+    .particle:nth-child(3) {
+      top: 70%;
+      left: 30%;
+      animation: float-particle 14s ease-in-out infinite 2s;
+    }
+    
+    .particle:nth-child(4) {
+      top: 60%;
+      left: 80%;
+      width: 5px;
+      height: 5px;
+      animation: float-particle 16s ease-in-out infinite 3s;
+    }
+    
+    .particle:nth-child(5) {
+      top: 40%;
+      left: 40%;
+      animation: float-particle 13s ease-in-out infinite 4s;
+    }
+    
+    .particle:nth-child(6) {
+      top: 80%;
+      left: 60%;
+      width: 3px;
+      height: 3px;
+      animation: float-particle 17s ease-in-out infinite 2.5s;
+    }
+    
+    @keyframes float-particle {
+      0% {
+        transform: translate(0, 0);
+      }
+      25% {
+        transform: translate(40px, 20px);
+      }
+      50% {
+        transform: translate(20px, 40px);
+      }
+      75% {
+        transform: translate(-20px, 20px);
+      }
+      100% {
+        transform: translate(0, 0);
+      }
+    }
+    
+    /* Features Section */
+    .features {
+      padding: 6rem 0;
+      background: linear-gradient(to bottom, #f1f5f9, #f8f9fc);
+      position: relative;
+      border-top: 1px solid rgba(106, 0, 255, 0.05);
+    }
+    
+    .features::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #f1f5f9);
+      z-index: 10;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      color: var(--gray);
+      max-width: 600px;
+      margin: 0 auto 4rem;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .feature-card {
+      background: white;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      display: inline-block;
+      background: var(--gradient-2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .feature-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+      font-weight: 500;
+    }
+    
+    .feature-description {
+      color: var(--gray);
+      font-weight: 400;
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      padding: 6rem 0;
+    }
+    
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+    
+    .testimonial-card {
+      background: white;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      border-top: 4px solid var(--primary);
+    }
+    
+    .testimonial-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 1.5rem;
+      color: var(--dark);
+      font-weight: 400;
+    }
+    
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    .author-info h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+    }
+    
+    .author-info p {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+      padding: 6rem 0;
+      background: var(--gradient-1);
+      color: white;
+      text-align: center;
+    }
+    
+    .cta-title {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .cta-description {
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      opacity: 0.9;
+    }
+    
+    .cta-button-white {
+      background: white;
+      color: var(--primary);
+      border: none;
+      padding: 0.7rem 1.8rem;
+      font-size: 1rem;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-block;
+      letter-spacing: 0.01em;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+    
+    .cta-button-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--dark);
+      color: white;
+      padding: 4rem 0 2rem;
+      position: relative;
+    }
+    
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(13, 10, 31, 0.9), rgba(13, 10, 31, 0.95));
+      z-index: 1;
+    }
+    
+    footer .container {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .footer-logo {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.5rem;
+    }
+    
+    .footer-logo img {
+      max-width: 150px;
+      height: auto;
+    }
+    
+    .footer-description {
+      color: var(--gray-light);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      max-width: 300px;
+    }
+    
+    .footer-heading {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      letter-spacing: -0.01em;
+      font-weight: 500;
+    }
+    
+    .footer-heading::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--gradient-1);
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-link {
+      margin-bottom: 0.75rem;
+    }
+    
+    .footer-link a {
+      color: var(--gray-light);
+      text-decoration: none;
+      transition: var(--transition);
+      font-weight: 400;
+    }
+    
+    .footer-link a:hover {
+      color: white;
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--gray-light);
+      font-size: 0.9rem;
+    }
+    
+    /* Decorative Elements */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: -1;
+      opacity: 0.5;
+    }
+    
+    .blob-1 {
+      background: var(--primary);
+      width: 300px;
+      height: 300px;
+      top: -100px;
+      right: -100px;
+    }
+    
+    .blob-2 {
+      background: var(--secondary);
+      width: 400px;
+      height: 400px;
+      bottom: -200px;
+      left: -200px;
+    }
+    
+    .blob-3 {
+      background: var(--accent);
+      width: 250px;
+      height: 250px;
+      top: 40%;
+      right: 10%;
+    }
+    
+    /* Animations */
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    .floating {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      .hero-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .hero-buttons {
+        justify-content: center;
+      }
+      
+      .hero-title {
+        font-size: 2.8rem;
+      }
+      
+      .section-title {
+        font-size: 2.2rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+    }
+    
+    /* Chat Widget Custom Styling */
+    #thena-widget-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+    
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(5px);
+    }
+    
+    .modal-content {
+      background-color: white;
+      margin: 50px auto;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      color: var(--gray);
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .close-modal:hover {
+      color: var(--primary);
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: var(--dark);
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--gray-light);
+      border-radius: var(--border-radius);
+      font-family: inherit;
+      font-size: 16px;
+      transition: var(--transition);
+    }
+    
+    .form-group input:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(106, 0, 255, 0.1);
+    }
+    
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 30px;
+    }
+    
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--dark);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 4px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      z-index: 1002;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, -10px);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-container">
+      <a href="#" class="logo">
+        <img src="images/Thena full logo.svg" alt="Thena Logo">
+      </a>
+      <nav class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#testimonials" class="nav-link">Testimonials</a>
+        <a href="#" class="nav-link">Pricing</a>
+        <a href="#" class="nav-link">Documentation</a>
+        <a href="#" class="cta-button">Get started</a>
+        <button id="widget-settings-btn" class="secondary-button">Widget Settings</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg-element"></div>
+    <div class="hero-bg-element"></div>
+    <div class="hero-bg-element"></div>
+    <div class="hero-particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+    <div class="container hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">Meet your AI-powered web chat agent</h1>
+        <p class="hero-subtitle">Deploy Thena's intelligent chat widget in minutes and let AI handle customer queries while your team focuses on what matters.</p>
+        <div class="hero-buttons">
+          <a href="#" class="cta-button">Try the demo</a>
+          <a href="#features" class="secondary-button">See how it works</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="blob blob-3"></div>
+    <div class="container">
+      <h2 class="section-title">Why Thena's AI chat widget?</h2>
+      <p class="section-subtitle">Everything you need to deliver instant, intelligent, and delightful support—on your terms.</p>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🚀</div>
+          <h3 class="feature-title">Deploy anywhere</h3>
+          <p class="feature-description">Add the widget to any website or product in minutes—no engineering bottlenecks, no hassle.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <h3 class="feature-title">AI agent, on demand</h3>
+          <p class="feature-description">Hire an AI agent to take over customer conversations, deflect L1 tickets, and free up your team for complex work.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📚</div>
+          <h3 class="feature-title">Custom knowledgebase</h3>
+          <p class="feature-description">Feed your agent with your docs, FAQs, and product context—so it always answers with your expertise.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📝</div>
+          <h3 class="feature-title">Prompt & personalize</h3>
+          <p class="feature-description">Shape your agent's tone, behavior, and personality. Make it sound just like your brand.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👥</div>
+          <h3 class="feature-title">Human-like experience</h3>
+          <p class="feature-description">Give customers fast, natural, and helpful responses—so good, they'll think it's a real person.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎫</div>
+          <h3 class="feature-title">Smart escalation</h3>
+          <p class="feature-description">When needed, your agent seamlessly hands off to a human and creates a ticket—never missing a beat.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <h2 class="section-title">What our customers say</h2>
+      <p class="section-subtitle">Hundreds of companies trust Thena's AI chat to deliver instant support, boost CSAT, and scale their teams.</p>
+      
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <p class="testimonial-text">"Thena has revolutionized how we handle customer support. The AI-powered responses have saved our team countless hours while maintaining high customer satisfaction."</p>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Sarah Johnson" class="author-avatar">
+            <div class="author-info">
+              <h4>Sarah Johnson</h4>
+              <p>Customer Success Manager, Amplitude</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <p class="testimonial-text">"The omnichannel capabilities of Thena have unified our customer communication strategy. We're now able to provide consistent support across all platforms."</p>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen" class="author-avatar">
+            <div class="author-info">
+              <h4>Michael Chen</h4>
+              <p>CTO, Vercel</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <p class="testimonial-text">"Implementing Thena's web chat widget was incredibly simple, and the results have been outstanding. Our response times have decreased by 60%."</p>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emily Rodriguez" class="author-avatar">
+            <div class="author-info">
+              <h4>Emily Rodriguez</h4>
+              <p>Head of Support, Mixpanel</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <h2 class="cta-title">Ready to transform your support?</h2>
+      <p class="cta-description">Try Thena's AI-powered web chat widget and see the future of customer engagement.</p>
+      <a href="#" class="cta-button-white">Get started today</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <img src="images/Thena full logo.svg" alt="Thena Logo">
+          </div>
+          <p class="footer-description">Your all-in-one, AI-powered customer engagement platform designed to streamline and enhance your interactions.</p>
+        </div>
+        
+        <div>
+          <h3 class="footer-heading">Product</h3>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="#">Features</a></li>
+            <li class="footer-link"><a href="#">Pricing</a></li>
+            <li class="footer-link"><a href="#">Integrations</a></li>
+            <li class="footer-link"><a href="#">Enterprise</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="footer-heading">Resources</h3>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="#">Documentation</a></li>
+            <li class="footer-link"><a href="#">API reference</a></li>
+            <li class="footer-link"><a href="#">Blog</a></li>
+            <li class="footer-link"><a href="#">Community</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="footer-heading">Company</h3>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="#">About us</a></li>
+            <li class="footer-link"><a href="#">Careers</a></li>
+            <li class="footer-link"><a href="#">Contact</a></li>
+            <li class="footer-link"><a href="#">Legal</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        &copy; 2025 Thena AI. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Widget Settings Modal -->
+  <div id="widget-settings-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Widget Settings</h2>
+      <form id="widget-settings-form">
+        <div class="form-group">
+          <label for="agent-id">Agent ID</label>
+          <input type="text" id="agent-id" placeholder="Enter agent ID" required>
+        </div>
+        <div class="form-group">
+          <label for="api-key">API Key</label>
+          <input type="text" id="api-key" placeholder="Enter API key" required>
+        </div>
+        <div class="form-group">
+          <label for="base-url">Base URL</label>
+          <input type="text" id="base-url" placeholder="Enter base URL" value="https://thena-agent-studio.thena.tools" required>
+        </div>
+        <div class="form-group">
+          <label for="ws-endpoint">WebSocket Endpoint</label>
+          <input type="text" id="ws-endpoint" placeholder="Enter WebSocket endpoint" value="wss://thena-agent-studio.thena.tools" required>
+        </div>
+        <div class="form-group">
+          <label for="user-email">User Email</label>
+          <input type="email" id="user-email" placeholder="Enter user email">
+        </div>
+        <div class="form-group">
+          <label for="user-name">User Name</label>
+          <input type="text" id="user-name" placeholder="Enter user name">
+        </div>
+        <div class="form-group">
+          <label for="hmac-secret">HMAC Secret (for authentication)</label>
+          <input type="text" id="hmac-secret" placeholder="Enter HMAC secret">
+        </div>
+        <div class="modal-buttons">
+          <button type="submit" class="cta-button">Save Settings</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Thena Web Chat Widget -->
+  <script>
+    // Define widget configuration as a global variable so it persists across reloads
+    window.thenaWidget = {
+      // No default values - will be set by user through settings
+    };
+    
+    // Function to save widget settings to localStorage to persist across page reloads
+    function saveWidgetSettings() {
+      localStorage.setItem('thenaWidgetSettings', JSON.stringify(window.thenaWidget));
+    }
+    
+    // Function to load widget settings from localStorage
+    function loadWidgetSettings() {
+      const savedSettings = localStorage.getItem('thenaWidgetSettings');
+      if (savedSettings) {
+        try {
+          const settings = JSON.parse(savedSettings);
+          window.thenaWidget = settings;
+          console.log('Loaded saved widget settings:', settings);
+        } catch (e) {
+          console.error('Error loading saved widget settings:', e);
+        }
+      }
+    }
+    
+    // Load settings on page load
+    loadWidgetSettings();
+  </script>
+  
+  <!-- Initialize Thena with anonymous user -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize Thena only if settings have been configured
+      if (window.thena) {
+        console.log("Thena widget initialized");
+      }
+      
+      // Widget Settings Modal functionality
+      const modal = document.getElementById('widget-settings-modal');
+      const settingsBtn = document.getElementById('widget-settings-btn');
+      const closeModal = document.querySelector('.close-modal');
+      const form = document.getElementById('widget-settings-form');
+      
+      // Pre-fill form fields with current settings if they exist
+      if (window.thenaWidget) {
+        document.getElementById('agent-id').value = window.thenaWidget.agentId || '';
+        document.getElementById('api-key').value = window.thenaWidget.apiKey || '';
+        document.getElementById('base-url').value = window.thenaWidget.baseUrl || '';
+        document.getElementById('ws-endpoint').value = window.thenaWidget.wsEndpoint || '';
+        
+        if (window.thenaWidget.user) {
+          document.getElementById('user-email').value = window.thenaWidget.user.email || '';
+          document.getElementById('user-name').value = window.thenaWidget.user.name || '';
+        }
+      }
+      
+      // Open modal when settings button is clicked
+      settingsBtn.addEventListener('click', function() {
+        modal.style.display = 'block';
+      });
+      
+      // Close modal when X is clicked
+      closeModal.addEventListener('click', function() {
+        modal.style.display = 'none';
+      });
+      
+      // Close modal when clicking outside
+      window.addEventListener('click', function(event) {
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
+      });
+      
+      // Auto-open settings modal if no settings configured
+      if (!window.thenaWidget.agentId || !window.thenaWidget.apiKey) {
+        setTimeout(() => {
+          modal.style.display = 'block';
+          showToast("Please configure the widget settings to continue");
+        }, 500);
+      }
+      
+      // Show toast notification
+      function showToast(message) {
+        let toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        
+        // Trigger reflow to enable transition
+        void toast.offsetWidth;
+        toast.classList.add('show');
+        
+        setTimeout(function() {
+          toast.classList.remove('show');
+          setTimeout(function() {
+            document.body.removeChild(toast);
+          }, 300);
+        }, 3000);
+      }
+      
+      // Generate HMAC-SHA256 using Web Crypto API
+      async function generateHMAC(secret, message) {
+        const encoder = new TextEncoder();
+        const secretBuffer = encoder.encode(secret);
+        const messageBuffer = encoder.encode(message);
+        
+        // Import the secret key
+        const key = await window.crypto.subtle.importKey(
+          'raw',
+          secretBuffer,
+          { name: 'HMAC', hash: 'SHA-256' },
+          false,
+          ['sign']
+        );
+        
+        // Sign the message
+        const signature = await window.crypto.subtle.sign(
+          'HMAC',
+          key,
+          messageBuffer
+        );
+        
+        // Convert to hex string
+        return Array.from(new Uint8Array(signature))
+          .map(b => b.toString(16).padStart(2, '0'))
+          .join('');
+      }
+      
+      // Handle form submission
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Get form values
+        const agentId = document.getElementById('agent-id').value.trim();
+        const apiKey = document.getElementById('api-key').value.trim();
+        const baseUrl = document.getElementById('base-url').value.trim();
+        const wsEndpoint = document.getElementById('ws-endpoint').value.trim();
+        const userEmail = document.getElementById('user-email').value.trim();
+        const userName = document.getElementById('user-name').value.trim();
+        const hmacSecret = document.getElementById('hmac-secret').value.trim();
+        
+        // Update thenaWidget configuration
+        window.thenaWidget.agentId = agentId;
+        window.thenaWidget.apiKey = apiKey;
+        window.thenaWidget.baseUrl = baseUrl;
+        window.thenaWidget.wsEndpoint = wsEndpoint;
+        
+        // If user authentication is provided
+        if (userEmail && userName && hmacSecret) {
+          // Create message payload for HMAC (email:name)
+          const messagePayload = `${userEmail}:${userName}`;
+          
+          try {
+            // Generate HMAC hash
+            const hash = await generateHMAC(hmacSecret, messagePayload);
+            
+            // Set user details with hash
+            window.thenaWidget.user = {
+              email: userEmail,
+              name: userName,
+              hash: hash
+            };
+            
+            console.log("User authenticated with HMAC hash:", hash);
+          } catch (error) {
+            console.error("Error generating HMAC:", error);
+            showToast("Error generating HMAC hash");
+            return;
+          }
+        } else if (userEmail || userName) {
+          // Set user details without hash (anonymous)
+          window.thenaWidget.user = {
+            email: userEmail,
+            name: userName
+          };
+        }
+        
+        // Close the modal
+        modal.style.display = 'none';
+        
+        // Save settings to localStorage
+        saveWidgetSettings();
+        
+        // Show toast
+        showToast("Settings saved! Reloading widget...");
+        
+        // The most reliable way to reset everything is to reload the page
+        // This ensures the widget is completely reinitialized with new settings
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      });
+    });
+  </script>
+  
+  <!-- Load the widget script conditionally -->
+  <script>
+    // Check if we have the required settings before loading the widget script
+    const hasValidSettings = window.thenaWidget && 
+                            window.thenaWidget.apiKey && 
+                            window.thenaWidget.agentId;
+    
+    // Only load the widget script if we have valid settings
+    if (hasValidSettings) {
+      const widgetScript = document.createElement('script');
+      widgetScript.src = 'https://widget.thena.tools/shim.js';
+      document.body.appendChild(widgetScript);
+    } else {
+      // If we don't have valid settings, show our custom widget immediately
+      console.log('No valid widget settings found. Showing configuration widget.');
+      document.addEventListener('DOMContentLoaded', showConfigurationWidget);
+      // Also call it now in case DOM is already loaded
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        showConfigurationWidget();
+      }
+    }
+    
+    // Function to display our custom configuration widget
+    function showConfigurationWidget() {
+      // Get or create the widget container
+      let widgetContainer = document.getElementById('thena-widget-container');
+      if (!widgetContainer) {
+        widgetContainer = document.createElement('div');
+        widgetContainer.id = 'thena-widget-container';
+        document.body.appendChild(widgetContainer);
+      }
+      
+      // Clear any existing content
+      widgetContainer.innerHTML = '';
+      
+      // Create our custom widget UI with settings button
+      const customWidget = document.createElement('div');
+      customWidget.id = 'thena-custom-widget';
+      customWidget.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 380px;
+        max-width: 90vw;
+        height: auto;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        z-index: 10000;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        font-family: 'DM Sans', sans-serif;
+      `;
+      
+      // Widget header
+      const header = document.createElement('div');
+      header.style.cssText = `
+        padding: 20px;
+        background: #6A00FF;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      `;
+      header.innerHTML = `
+        <div style="font-weight: 600; font-size: 18px;">Thena Chat Widget</div>
+        <div style="cursor: pointer; font-size: 24px;" id="thena-widget-close">×</div>
+      `;
+      
+      // Widget body
+      const body = document.createElement('div');
+      body.style.cssText = `
+        padding: 30px 20px;
+        text-align: center;
+      `;
+      body.innerHTML = `
+        <div style="font-size: 60px; margin-bottom: 10px;">⚙️</div>
+        <h3 style="margin: 0 0 10px; color: #333; font-size: 18px;">Widget Configuration Required</h3>
+        <p style="margin: 0 0 20px; color: #666; font-size: 14px;">
+          Please configure your API Key and Agent ID to initialize the chat widget.
+        </p>
+        <button id="thena-settings-btn-inline" style="
+          background: #6A00FF;
+          color: white;
+          border: none;
+          padding: 12px 24px;
+          border-radius: 6px;
+          font-weight: 500;
+          cursor: pointer;
+          font-size: 14px;
+          transition: background-color 0.2s;
+        ">Configure Widget</button>
+      `;
+      
+      // Add our custom UI to the container
+      customWidget.appendChild(header);
+      customWidget.appendChild(body);
+      widgetContainer.appendChild(customWidget);
+      
+      // Add event listeners
+      document.getElementById('thena-widget-close').addEventListener('click', function() {
+        customWidget.style.display = 'none';
+        // Show the settings button when widget is closed
+        showSettingsButton();
+      });
+      
+      document.getElementById('thena-settings-btn-inline').addEventListener('click', function() {
+        document.getElementById('widget-settings-modal').style.display = 'block';
+      });
+    }
+    
+    // Function to show floating settings button
+    function showSettingsButton() {
+      // Remove any existing button first
+      const existingBtn = document.getElementById('thena-settings-button');
+      if (existingBtn) existingBtn.remove();
+      
+      const btn = document.createElement('div');
+      btn.id = 'thena-settings-button';
+      btn.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #6A00FF;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(106, 0, 255, 0.25);
+        z-index: 999;
+        font-size: 24px;
+      `;
+      btn.innerHTML = '⚙️';
+      document.body.appendChild(btn);
+      
+      btn.addEventListener('click', function() {
+        btn.style.display = 'none';
+        // Either show the configuration widget or open settings modal directly
+        const customWidget = document.getElementById('thena-custom-widget');
+        if (customWidget) {
+          customWidget.style.display = 'flex';
+        } else {
+          document.getElementById('widget-settings-modal').style.display = 'block';
+        }
+      });
+    }
+  </script>
+  
+  <!-- Thena Web Chat Widget Container -->
+  <div id="thena-widget-container"></div>
+</body>
+</html>
+
