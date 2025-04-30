@@ -3,80 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thena AI | Intelligent Customer Engagement</title>
-  
-  <!-- Favicon -->
-  <link rel="icon" href="images/Thena full logo.svg">
+  <title>Nexus | Enterprise Dashboard</title>
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Typewriter Effect Script -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Typewriter effect for hero title
-      const heroTitle = document.querySelector('.hero-title');
-      const heroTitleText = heroTitle.textContent;
-      heroTitle.innerHTML = '';
-      
-      // Add cursor element
-      const cursor = document.createElement('span');
-      cursor.classList.add('typing-cursor');
-      heroTitle.appendChild(cursor);
-      
-      let typewriterDelay = 50; // milliseconds between characters
-      let currentCharIndex = 0;
-      
-      function typeNextCharacter() {
-        if (currentCharIndex < heroTitleText.length) {
-          // Remove cursor
-          heroTitle.removeChild(cursor);
-          
-          // Add next character
-          heroTitle.innerHTML += heroTitleText.charAt(currentCharIndex);
-          
-          // Add cursor back
-          heroTitle.appendChild(cursor);
-          
-          currentCharIndex++;
-          setTimeout(typeNextCharacter, typewriterDelay);
-        }
-      }
-      
-      // Start the typewriter effect
-      setTimeout(typeNextCharacter, 500);
-      
-      // Add subtle animation to background elements
-      const bgElements = document.querySelectorAll('.hero-bg-element');
-      bgElements.forEach((element, index) => {
-        element.style.animation = `float-particle ${8 + index * 2}s ease-in-out infinite ${index * 0.5}s`;
-      });
-    });
-  </script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Chart.js plugin for curved lines -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-style@latest/dist/chartjs-plugin-style.min.js"></script>
+  <!-- Chart.js plugin for center text in doughnut -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-doughnutlabel@2.0.3/dist/chartjs-plugin-doughnutlabel.min.js"></script>
   
   <style>
     :root {
-      --primary: #6A00FF;
-      --primary-dark: #3B01B7;
-      --secondary: #00E0FF;
-      --accent: #FF3366;
-      --dark: #0D0A1F;
-      --light: #F8F9FC;
-      --gray: #64748b;
-      --gray-light: #e2e8f0;
+      --primary: #4361ee;
+      --primary-light: #7b9fff;
+      --primary-dark: #3a56d4;
+      --secondary: #38bdf8;
+      --accent: #f472b6;
+      --dark: #111827;
+      --dark-gray: #1F2937;
+      --gray: #6B7280;
+      --light-gray: #E5E7EB;
+      --lighter-gray: #F3F4F6;
+      --white: #FFFFFF;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
       
-      --gradient-1: linear-gradient(135deg, #6A00FF, #3B01B7);
-      --gradient-2: linear-gradient(135deg, #00E0FF, #6A00FF);
-      --gradient-3: linear-gradient(135deg, #FF3366, #6A00FF);
+      /* Add custom widget styles */
+      --widget-button-size: 56px;
       
-      --shadow-sm: 0 4px 6px -1px rgba(106, 0, 255, 0.05);
-      --shadow-md: 0 10px 15px -3px rgba(106, 0, 255, 0.07);
-      --shadow-lg: 0 20px 25px -5px rgba(106, 0, 255, 0.05);
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
       
       --border-radius: 4px;
-      --transition: all 0.3s ease;
+      --transition: all 0.2s ease;
     }
     
     * {
@@ -86,789 +55,626 @@
     }
     
     body {
-      font-family: 'DM Sans', sans-serif;
-      background-color: var(--light);
+      font-family: 'Inter', sans-serif;
+      background-color: #fafafa;
       color: var(--dark);
-      line-height: 1.6;
+      line-height: 1.5;
       overflow-x: hidden;
       font-weight: 400;
+      display: flex;
+      min-height: 100vh;
     }
     
     h1, h2, h3, h4, h5 {
-      font-family: 'Outfit', sans-serif;
       font-weight: 500;
       line-height: 1.2;
     }
     
-    .container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-    
-    /* Header */
-    header {
+    .sidebar {
+      width: 240px;
+      background-color: var(--white);
+      border-right: 1px solid var(--light-gray);
       padding: 1.5rem 0;
       position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 100;
-      background-color: rgba(248, 250, 252, 0.8);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
     }
     
-    .header-container {
+    .sidebar-top {
+      flex: 1;
+    }
+    
+    .sidebar-bottom {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--light-gray);
+    }
+    
+    .logo-container {
+      padding: 0 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    
+    .logo-icon {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .logo-text {
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: var(--dark);
+      letter-spacing: -0.02em;
+    }
+    
+    .nav-section {
+      margin-bottom: 1.5rem;
+    }
+    
+    .nav-section-title {
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--gray);
+      padding: 0 1.5rem;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+    
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 0.65rem 1.5rem;
+      color: var(--dark-gray);
+      text-decoration: none;
+      transition: var(--transition);
+      position: relative;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    
+    .nav-item:hover {
+      background-color: var(--lighter-gray);
+      color: var(--primary);
+    }
+    
+    .nav-item.active {
+      color: var(--primary);
+      font-weight: 500;
+    }
+    
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 2px;
+      background: var(--primary);
+    }
+    
+    .nav-icon {
+      margin-right: 0.75rem;
+      font-size: 0.9rem;
+      width: 18px;
+      text-align: center;
+      opacity: 0.8;
+    }
+    
+    .main-content {
+      flex: 1;
+      margin-left: 240px;
+      padding: 2rem;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    
+    .page-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--dark);
+      letter-spacing: -0.02em;
+    }
+    
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .search-bar {
+      position: relative;
+    }
+    
+    .search-input {
+      padding: 0.5rem 1rem 0.5rem 2.25rem;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--border-radius);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      width: 240px;
+      transition: var(--transition);
+      background-color: var(--white);
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(93, 95, 239, 0.1);
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      font-size: 0.875rem;
+    }
+    
+    .setup-button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .setup-button:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+    }
+    
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+      margin-right: 0.75rem;
+    }
+    
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .user-name {
+      font-weight: 500;
+      font-size: 0.875rem;
+    }
+    
+    .user-role {
+      font-size: 0.75rem;
+      color: var(--gray);
+    }
+    
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1rem;
+    }
+    
+    .card {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-sm);
+      padding: 1.25rem;
+      transition: var(--transition);
+      border: 1px solid var(--light-gray);
+    }
+    
+    .card:hover {
+      box-shadow: var(--shadow-md);
+    }
+    
+    .card-sm {
+      grid-column: span 4;
+    }
+    
+    .card-md {
+      grid-column: span 6;
+    }
+    
+    .card-lg {
+      grid-column: span 8;
+    }
+    
+    .card-full {
+      grid-column: span 12;
+    }
+    
+    .stat-card {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .stat-title {
+      font-size: 0.875rem;
+      color: var(--gray);
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    
+    .stat-change {
+      display: flex;
+      align-items: center;
+      font-size: 0.8125rem;
+    }
+    
+    .stat-change.positive {
+      color: var(--success);
+    }
+    
+    .stat-change.negative {
+      color: var(--danger);
+    }
+    
+    .stat-icon {
+      margin-right: 0.25rem;
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+    
+    .card-title {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .card-action {
+      background: none;
+      border: none;
+      color: var(--gray);
+      cursor: pointer;
+      transition: var(--transition);
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--border-radius);
+    }
+    
+    .card-action:hover {
+      background-color: var(--lighter-gray);
+      color: var(--dark);
+    }
+    
+    .chart-container {
+      width: 100%;
+      height: 250px;
+      position: relative;
+    }
+    
+    .chart-info {
+      display: flex;
+      flex-direction: column;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--light-gray);
+    }
+    
+    .chart-trend {
+      display: flex;
+      align-items: center;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--success);
+      margin-bottom: 0.25rem;
+    }
+    
+    .chart-trend i {
+      margin-right: 0.25rem;
+    }
+    
+    .chart-period {
+      font-size: 0.75rem;
+      color: var(--gray);
+    }
+    
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      font-weight: 500;
+      color: var(--gray);
+      border-bottom: 1px solid var(--light-gray);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--light-gray);
+      font-size: 0.875rem;
+    }
+    
+    tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .status {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.625rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .status.active {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+    
+    .status.pending {
+      background-color: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+    
+    .status.inactive {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+    
+    .progress-container {
+      width: 100%;
+      height: 6px;
+      background-color: var(--light-gray);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      border-radius: 3px;
+    }
+    
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.125rem 0.5rem;
+      border-radius: var(--border-radius);
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .badge-primary {
+      background-color: rgba(93, 95, 239, 0.1);
+      color: var(--primary);
+    }
+    
+    .badge-secondary {
+      background-color: rgba(56, 189, 248, 0.1);
+      color: var(--secondary);
+    }
+    
+    .badge-accent {
+      background-color: rgba(244, 114, 182, 0.1);
+      color: var(--accent);
+    }
+    
+    .badge-success {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+    
+    .badge-warning {
+      background-color: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+    
+    .badge-danger {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+    
+    .banner {
+      grid-column: span 12;
+      background: linear-gradient(to right, #4361ee, #38bdf8);
+      color: white;
+      border-radius: var(--border-radius);
+      padding: 0.75rem 1.25rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
     
-    .logo {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--primary);
+    .banner-content {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
     }
     
-    .logo img {
+    .banner-icon {
+      margin-right: 0.75rem;
+      font-size: 1rem;
+    }
+    
+    .banner-text {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    
+    .banner-action {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: none;
+      padding: 0.375rem 0.75rem;
+      border-radius: var(--border-radius);
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .banner-action:hover {
+      background-color: rgba(255, 255, 255, 0.25);
+    }
+    
+    .user-activity-card {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .user-activity-card:last-child {
+      border-bottom: none;
+    }
+    
+    .user-avatar-sm {
+      width: 32px;
       height: 32px;
-      width: auto;
-      margin-right: 0.5rem;
-    }
-    
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-    }
-    
-    .nav-link {
-      text-decoration: none;
-      color: var(--dark);
-      font-weight: 500;
-      transition: var(--transition);
-      position: relative;
-      font-size: 0.95rem;
-      letter-spacing: 0.02em;
-      text-transform: none;
-    }
-    
-    .nav-link:hover {
-      color: var(--primary);
-    }
-    
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--gradient-1);
-      transition: var(--transition);
-    }
-    
-    .nav-link:hover::after {
-      width: 100%;
-    }
-    
-    .cta-button {
-      background: var(--gradient-1);
-      color: white;
-      border: none;
-      padding: 0.7rem 1.5rem;
-      font-size: 0.95rem;
-      letter-spacing: 0.01em;
-      box-shadow: 0 8px 16px rgba(106, 0, 255, 0.15);
-      border-radius: var(--border-radius);
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition);
-      text-decoration: none;
-      display: inline-block;
-    }
-    
-    .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(106, 0, 255, 0.2);
-    }
-    
-    .secondary-button {
-      background: transparent;
-      color: var(--primary);
-      border: 2px solid var(--primary);
-      padding: 0.7rem 1.5rem;
-      font-size: 0.95rem;
-      border-radius: var(--border-radius);
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition);
-      text-decoration: none;
-      display: inline-block;
-      letter-spacing: 0.01em;
-    }
-    
-    .secondary-button:hover {
-      background: var(--primary);
-      color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba(106, 0, 255, 0.15);
-    }
-    
-    /* Hero Section */
-    .hero {
-      padding-top: 10rem;
-      padding-bottom: 8rem;
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(135deg, rgba(106, 0, 255, 0.02), rgba(59, 1, 183, 0.04));
-      margin-bottom: -1px; /* Ensure seamless connection with next section */
-    }
-    
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        radial-gradient(circle at 20% 30%, rgba(106, 0, 255, 0.02) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(59, 1, 183, 0.03) 0%, transparent 50%);
-      z-index: 1;
-    }
-    
-    .hero-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 5;
-    }
-    
-    .hero-text {
-      max-width: 100%;
-      position: relative;
-    }
-    
-    .hero-title {
-      font-size: 3.5rem;
-      margin-bottom: 1.5rem;
-      background: var(--gradient-1);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.02em;
-      font-weight: 500;
-      line-height: 1.2;
-    }
-    
-    .hero-subtitle {
-      font-size: 1.25rem;
-      color: var(--gray);
-      margin-bottom: 2rem;
-      font-weight: 400;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
-    }
-    
-    .hero-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      margin-top: 2rem;
-    }
-    
-    .hero-buttons .cta-button {
-      padding: 0.8rem 1.8rem;
-      font-size: 1rem;
-      letter-spacing: 0.01em;
-      box-shadow: 0 10px 20px rgba(106, 0, 255, 0.2);
-    }
-    
-    .hero-buttons .secondary-button {
-      padding: 0.8rem 1.8rem;
-      font-size: 1rem;
-      border-radius: var(--border-radius);
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition);
-      text-decoration: none;
-      display: inline-block;
-      letter-spacing: 0.01em;
-    }
-    
-    /* Typewriter Effect */
-    .typing-cursor {
-      display: inline-block;
-      width: 4px;
-      height: 1.2em;
-      background-color: var(--primary);
-      margin-left: 4px;
-      animation: cursor-blink 1s infinite;
-      vertical-align: text-bottom;
-    }
-    
-    @keyframes cursor-blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-    
-    /* Elegant background elements */
-    .hero-bg-element {
-      position: absolute;
       border-radius: 50%;
-      background: linear-gradient(135deg, rgba(106, 0, 255, 0.04), rgba(59, 1, 183, 0.06));
-      filter: blur(60px);
-      z-index: 1;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+      margin-right: 0.75rem;
     }
     
-    .hero-bg-element:nth-child(1) {
-      width: 500px;
-      height: 500px;
-      top: -150px;
-      left: -100px;
-      opacity: 0.4;
+    .user-activity-content {
+      flex: 1;
     }
     
-    .hero-bg-element:nth-child(2) {
-      width: 400px;
-      height: 400px;
-      bottom: -100px;
-      right: -50px;
-      opacity: 0.3;
-    }
-    
-    .hero-bg-element:nth-child(3) {
-      width: 300px;
-      height: 300px;
-      top: 40%;
-      left: 25%;
-      transform: translateY(-50%);
-      opacity: 0.2;
-    }
-    
-    /* Floating particles */
-    .hero-particles {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-      overflow: hidden;
-    }
-    
-    .particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: rgba(106, 0, 255, 0.15);
-      z-index: 2;
-    }
-    
-    .particle:nth-child(1) {
-      top: 20%;
-      left: 20%;
-      width: 6px;
-      height: 6px;
-      animation: float-particle 12s ease-in-out infinite;
-    }
-    
-    .particle:nth-child(2) {
-      top: 30%;
-      left: 70%;
-      animation: float-particle 15s ease-in-out infinite 1s;
-    }
-    
-    .particle:nth-child(3) {
-      top: 70%;
-      left: 30%;
-      animation: float-particle 14s ease-in-out infinite 2s;
-    }
-    
-    .particle:nth-child(4) {
-      top: 60%;
-      left: 80%;
-      width: 5px;
-      height: 5px;
-      animation: float-particle 16s ease-in-out infinite 3s;
-    }
-    
-    .particle:nth-child(5) {
-      top: 40%;
-      left: 40%;
-      animation: float-particle 13s ease-in-out infinite 4s;
-    }
-    
-    .particle:nth-child(6) {
-      top: 80%;
-      left: 60%;
-      width: 3px;
-      height: 3px;
-      animation: float-particle 17s ease-in-out infinite 2.5s;
-    }
-    
-    @keyframes float-particle {
-      0% {
-        transform: translate(0, 0);
-      }
-      25% {
-        transform: translate(40px, 20px);
-      }
-      50% {
-        transform: translate(20px, 40px);
-      }
-      75% {
-        transform: translate(-20px, 20px);
-      }
-      100% {
-        transform: translate(0, 0);
-      }
-    }
-    
-    /* Features Section */
-    .features {
-      padding: 6rem 0;
-      background: linear-gradient(to bottom, #f1f5f9, #f8f9fc);
-      position: relative;
-      border-top: 1px solid rgba(106, 0, 255, 0.05);
-    }
-    
-    .features::before {
-      content: '';
-      position: absolute;
-      top: -100px;
-      left: 0;
-      width: 100%;
-      height: 100px;
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #f1f5f9);
-      z-index: 10;
-    }
-    
-    .section-title {
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      background: var(--gradient-1);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    
-    .section-subtitle {
-      text-align: center;
-      color: var(--gray);
-      max-width: 600px;
-      margin: 0 auto 4rem;
-    }
-    
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-    
-    .feature-card {
-      background: white;
-      padding: 2rem;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-    }
-    
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-md);
-    }
-    
-    .feature-icon {
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
-      display: inline-block;
-      background: var(--gradient-2);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    
-    .feature-title {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      letter-spacing: -0.01em;
+    .user-activity-name {
+      font-size: 0.875rem;
       font-weight: 500;
-    }
-    
-    .feature-description {
-      color: var(--gray);
-      font-weight: 400;
-    }
-    
-    /* Testimonials */
-    .testimonials {
-      padding: 6rem 0;
-    }
-    
-    .testimonial-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 2rem;
-    }
-    
-    .testimonial-card {
-      background: white;
-      padding: 2rem;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-      border-top: 4px solid var(--primary);
-    }
-    
-    .testimonial-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-md);
-    }
-    
-    .testimonial-text {
-      font-style: italic;
-      margin-bottom: 1.5rem;
-      color: var(--dark);
-      font-weight: 400;
-    }
-    
-    .testimonial-author {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    
-    .author-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    
-    .author-info h4 {
-      font-size: 1.1rem;
       margin-bottom: 0.25rem;
-      font-weight: 500;
     }
     
-    .author-info p {
+    .user-activity-action {
+      font-size: 0.75rem;
       color: var(--gray);
-      font-size: 0.9rem;
     }
     
-    /* CTA Section */
-    .cta-section {
-      padding: 6rem 0;
-      background: var(--gradient-1);
-      color: white;
-      text-align: center;
+    .user-activity-time {
+      font-size: 0.75rem;
+      color: var(--gray);
+      flex-shrink: 0;
     }
     
-    .cta-title {
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
-    }
-    
-    .cta-description {
-      max-width: 600px;
-      margin: 0 auto 2rem;
-      opacity: 0.9;
-    }
-    
-    .cta-button-white {
-      background: white;
-      color: var(--primary);
-      border: none;
-      padding: 0.7rem 1.8rem;
-      font-size: 1rem;
-      border-radius: var(--border-radius);
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      text-decoration: none;
-      display: inline-block;
-      letter-spacing: 0.01em;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    }
-    
-    .cta-button-white:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
-    }
-    
-    /* Footer */
-    footer {
-      background-color: var(--dark);
-      color: white;
-      padding: 4rem 0 2rem;
-      position: relative;
-    }
-    
-    footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, rgba(13, 10, 31, 0.9), rgba(13, 10, 31, 0.95));
-      z-index: 1;
-    }
-    
-    footer .container {
-      position: relative;
-      z-index: 2;
-    }
-    
-    .footer-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-      margin-bottom: 3rem;
-    }
-    
-    .footer-logo {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: white;
-      margin-bottom: 1rem;
+    .user-metrics {
       display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 0.5rem;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
     }
     
-    .footer-logo img {
-      max-width: 150px;
-      height: auto;
-    }
-    
-    .footer-description {
-      color: var(--gray-light);
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-      max-width: 300px;
-    }
-    
-    .footer-heading {
-      font-size: 1.2rem;
-      margin-bottom: 1.5rem;
-      position: relative;
-      letter-spacing: -0.01em;
-      font-weight: 500;
-    }
-    
-    .footer-heading::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 0;
-      width: 40px;
-      height: 3px;
-      background: var(--gradient-1);
-    }
-    
-    .footer-links {
-      list-style: none;
-    }
-    
-    .footer-link {
-      margin-bottom: 0.75rem;
-    }
-    
-    .footer-link a {
-      color: var(--gray-light);
-      text-decoration: none;
-      transition: var(--transition);
-      font-weight: 400;
-    }
-    
-    .footer-link a:hover {
-      color: white;
-    }
-    
-    .copyright {
+    .user-metric {
       text-align: center;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      color: var(--gray-light);
-      font-size: 0.9rem;
     }
     
-    /* Decorative Elements */
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      z-index: -1;
-      opacity: 0.5;
+    .user-metric-value {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
     }
     
-    .blob-1 {
-      background: var(--primary);
-      width: 300px;
-      height: 300px;
-      top: -100px;
-      right: -100px;
-    }
-    
-    .blob-2 {
-      background: var(--secondary);
-      width: 400px;
-      height: 400px;
-      bottom: -200px;
-      left: -200px;
-    }
-    
-    .blob-3 {
-      background: var(--accent);
-      width: 250px;
-      height: 250px;
-      top: 40%;
-      right: 10%;
-    }
-    
-    /* Animations */
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-      100% { transform: translateY(0px); }
-    }
-    
-    .floating {
-      animation: float 6s ease-in-out infinite;
+    .user-metric-label {
+      font-size: 0.75rem;
+      color: var(--gray);
     }
     
     /* Responsive */
+    @media (max-width: 1200px) {
+      .card-sm {
+        grid-column: span 4;
+      }
+      
+      .card-md {
+        grid-column: span 6;
+      }
+      
+      .card-lg {
+        grid-column: span 12;
+      }
+    }
+    
     @media (max-width: 992px) {
-      .hero-content {
-        flex-direction: column;
-        text-align: center;
+      .card-sm {
+        grid-column: span 6;
       }
       
-      .hero-buttons {
-        justify-content: center;
-      }
-      
-      .hero-title {
-        font-size: 2.8rem;
-      }
-      
-      .section-title {
-        font-size: 2.2rem;
+      .card-md {
+        grid-column: span 12;
       }
     }
     
     @media (max-width: 768px) {
-      .nav-links {
-        display: none;
+      .sidebar {
+        transform: translateX(-100%);
       }
       
-      .hero-title {
-        font-size: 2.5rem;
+      .main-content {
+        margin-left: 0;
       }
       
-      .section-title {
-        font-size: 2rem;
+      .card-sm {
+        grid-column: span 12;
       }
-    }
-    
-    /* Chat Widget Custom Styling */
-    #thena-widget-container {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-    
-    /* Modal Styles */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1001;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(5px);
-    }
-    
-    .modal-content {
-      background-color: white;
-      margin: 50px auto;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
-      max-width: 500px;
-      width: 90%;
-      position: relative;
-    }
-    
-    .close-modal {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      color: var(--gray);
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    
-    .close-modal:hover {
-      color: var(--primary);
-    }
-    
-    .form-group {
-      margin-bottom: 20px;
-    }
-    
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 500;
-      color: var(--dark);
-    }
-    
-    .form-group input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid var(--gray-light);
-      border-radius: var(--border-radius);
-      font-family: inherit;
-      font-size: 16px;
-      transition: var(--transition);
-    }
-    
-    .form-group input:focus {
-      border-color: var(--primary);
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(106, 0, 255, 0.1);
-    }
-    
-    .modal-buttons {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 30px;
     }
     
     /* Toast notification */
@@ -892,221 +698,487 @@
       opacity: 1;
       transform: translate(-50%, -10px);
     }
+    
+    /* Widget button styles */
+    #thena-settings-button {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: var(--widget-button-size);
+      height: var(--widget-button-size);
+      border-radius: 5%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
+      z-index: 999;
+      font-size: 24px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    #thena-settings-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(67, 97, 238, 0.3);
+    }
+    
+    /* Modal Styles for Widget Settings - Added from Thena file */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+    }
+    
+    .modal-content {
+      background-color: white;
+      margin: 80px auto;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      max-width: 480px;
+      width: 90%;
+      position: relative;
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      color: var(--gray);
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: var(--transition);
+      height: 24px;
+      width: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+    
+    .close-modal:hover {
+      color: var(--primary);
+      background-color: rgba(106, 0, 255, 0.05);
+    }
+    
+    .modal-content h2 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: var(--dark);
+    }
+    
+    .form-group {
+      margin-bottom: 16px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--dark-gray);
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--light-gray);
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      transition: var(--transition);
+    }
+    
+    .form-group input:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(106, 0, 255, 0.1);
+    }
+    
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 24px;
+    }
+    
+    .setup-button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .setup-button:hover {
+      background-color: var(--primary-dark);
+    }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="container header-container">
-      <a href="#" class="logo">
-        <img src="images/Thena full logo.svg" alt="Thena Logo">
-      </a>
-      <nav class="nav-links">
-        <a href="#features" class="nav-link">Features</a>
-        <a href="#testimonials" class="nav-link">Testimonials</a>
-        <a href="#" class="nav-link">Pricing</a>
-        <a href="#" class="nav-link">Documentation</a>
-        <a href="#" class="cta-button">Get started</a>
-        <button id="widget-settings-btn" class="secondary-button">Widget Settings</button>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-bg-element"></div>
-    <div class="hero-bg-element"></div>
-    <div class="hero-bg-element"></div>
-    <div class="hero-particles">
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-    </div>
-    <div class="container hero-content">
-      <div class="hero-text">
-        <h1 class="hero-title">Meet your AI-powered web chat agent</h1>
-        <p class="hero-subtitle">Deploy Thena's intelligent chat widget in minutes and let AI handle customer queries while your team focuses on what matters.</p>
-        <div class="hero-buttons">
-          <a href="#" class="cta-button">Try the demo</a>
-          <a href="#features" class="secondary-button">See how it works</a>
-        </div>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <div class="logo-container">
+        <a href="#" class="logo">
+          <div class="logo-icon">N</div>
+          <span class="logo-text">Nexus</span>
+        </a>
       </div>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section class="features" id="features">
-    <div class="blob blob-3"></div>
-    <div class="container">
-      <h2 class="section-title">Why Thena's AI chat widget?</h2>
-      <p class="section-subtitle">Everything you need to deliver instant, intelligent, and delightful support—on your terms.</p>
       
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">🚀</div>
-          <h3 class="feature-title">Deploy anywhere</h3>
-          <p class="feature-description">Add the widget to any website or product in minutes—no engineering bottlenecks, no hassle.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🤖</div>
-          <h3 class="feature-title">AI agent, on demand</h3>
-          <p class="feature-description">Hire an AI agent to take over customer conversations, deflect L1 tickets, and free up your team for complex work.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📚</div>
-          <h3 class="feature-title">Custom knowledgebase</h3>
-          <p class="feature-description">Feed your agent with your docs, FAQs, and product context—so it always answers with your expertise.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📝</div>
-          <h3 class="feature-title">Prompt & personalize</h3>
-          <p class="feature-description">Shape your agent's tone, behavior, and personality. Make it sound just like your brand.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">👥</div>
-          <h3 class="feature-title">Human-like experience</h3>
-          <p class="feature-description">Give customers fast, natural, and helpful responses—so good, they'll think it's a real person.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🎫</div>
-          <h3 class="feature-title">Smart escalation</h3>
-          <p class="feature-description">When needed, your agent seamlessly hands off to a human and creates a ticket—never missing a beat.</p>
-        </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <a href="#" class="nav-item active">
+          <i class="nav-icon fas fa-th-large"></i>
+          Dashboard
+        </a>
+        <a href="#" class="nav-item">
+          <i class="nav-icon fas fa-chart-line"></i>
+          Analytics
+        </a>
+        <a href="#" class="nav-item">
+          <i class="nav-icon fas fa-bolt"></i>
+          Activity
+        </a>
       </div>
-    </div>
-  </section>
-
-  <!-- Testimonials Section -->
-  <section class="testimonials" id="testimonials">
-    <div class="container">
-      <h2 class="section-title">What our customers say</h2>
-      <p class="section-subtitle">Hundreds of companies trust Thena's AI chat to deliver instant support, boost CSAT, and scale their teams.</p>
       
-      <div class="testimonial-grid">
-        <div class="testimonial-card">
-          <p class="testimonial-text">"Thena has revolutionized how we handle customer support. The AI-powered responses have saved our team countless hours while maintaining high customer satisfaction."</p>
-          <div class="testimonial-author">
-            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Sarah Johnson" class="author-avatar">
-            <div class="author-info">
-              <h4>Sarah Johnson</h4>
-              <p>Customer Success Manager, Amplitude</p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="testimonial-card">
-          <p class="testimonial-text">"The omnichannel capabilities of Thena have unified our customer communication strategy. We're now able to provide consistent support across all platforms."</p>
-          <div class="testimonial-author">
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen" class="author-avatar">
-            <div class="author-info">
-              <h4>Michael Chen</h4>
-              <p>CTO, Vercel</p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="testimonial-card">
-          <p class="testimonial-text">"Implementing Thena's web chat widget was incredibly simple, and the results have been outstanding. Our response times have decreased by 60%."</p>
-          <div class="testimonial-author">
-            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emily Rodriguez" class="author-avatar">
-            <div class="author-info">
-              <h4>Emily Rodriguez</h4>
-              <p>Head of Support, Mixpanel</p>
-            </div>
-          </div>
+      <div class="nav-section">
+        <div class="nav-section-title">Workspace</div>
+        <a href="#" class="nav-item">
+          <i class="nav-icon fas fa-code-branch"></i>
+          Projects
+        </a>
+        <a href="#" class="nav-item">
+          <i class="nav-icon fas fa-tasks"></i>
+          Issues
+        </a>
+        <a href="#" class="nav-item">
+          <i class="nav-icon fas fa-users"></i>
+          Team
+        </a>
+        <a href="#" class="nav-item">
+          <i class="nav-icon fas fa-database"></i>
+          Resources
+        </a>
+      </div>
+      
+      <div class="nav-section">
+        <div class="nav-section-title">Account</div>
+        <a href="#" class="nav-item">
+          <i class="nav-icon fas fa-cog"></i>
+          Settings
+        </a>
+        <a href="#" class="nav-item">
+          <i class="nav-icon fas fa-question-circle"></i>
+          Help
+        </a>
+      </div>
+    </div>
+    
+    <div class="sidebar-bottom">
+      <div class="user-menu">
+        <div class="user-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/32.jpg'); background-size: cover;"></div>
+        <div class="user-info">
+          <div class="user-name">Alex Rivera</div>
+          <div class="user-role">Admin</div>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="cta-section">
-    <div class="container">
-      <h2 class="cta-title">Ready to transform your support?</h2>
-      <p class="cta-description">Try Thena's AI-powered web chat widget and see the future of customer engagement.</p>
-      <a href="#" class="cta-button-white">Get started today</a>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-logo">
-            <img src="images/Thena full logo.svg" alt="Thena Logo">
-          </div>
-          <p class="footer-description">Your all-in-one, AI-powered customer engagement platform designed to streamline and enhance your interactions.</p>
+  </aside>
+  
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="header">
+      <h1 class="page-title">Dashboard</h1>
+      
+      <div class="header-actions">
+        <div class="search-bar">
+          <i class="search-icon fas fa-search"></i>
+          <input type="text" class="search-input" placeholder="Search...">
         </div>
         
-        <div>
-          <h3 class="footer-heading">Product</h3>
-          <ul class="footer-links">
-            <li class="footer-link"><a href="#">Features</a></li>
-            <li class="footer-link"><a href="#">Pricing</a></li>
-            <li class="footer-link"><a href="#">Integrations</a></li>
-            <li class="footer-link"><a href="#">Enterprise</a></li>
-          </ul>
+        <button class="setup-button" id="widget-settings-btn">
+          <i class="fas fa-comment-dots"></i>
+          Setup chat widget
+        </button>
+      </div>
+    </header>
+    
+    <div class="dashboard-grid">
+      <!-- Banner -->
+      <div class="banner">
+        <div class="banner-content">
+          <i class="banner-icon fas fa-bolt"></i>
+          <div class="banner-text">New dashboard features are now available — check out the latest improvements</div>
         </div>
-        
-        <div>
-          <h3 class="footer-heading">Resources</h3>
-          <ul class="footer-links">
-            <li class="footer-link"><a href="#">Documentation</a></li>
-            <li class="footer-link"><a href="#">API reference</a></li>
-            <li class="footer-link"><a href="#">Blog</a></li>
-            <li class="footer-link"><a href="#">Community</a></li>
-          </ul>
-        </div>
-        
-        <div>
-          <h3 class="footer-heading">Company</h3>
-          <ul class="footer-links">
-            <li class="footer-link"><a href="#">About us</a></li>
-            <li class="footer-link"><a href="#">Careers</a></li>
-            <li class="footer-link"><a href="#">Contact</a></li>
-            <li class="footer-link"><a href="#">Legal</a></li>
-          </ul>
+        <button class="banner-action">Explore</button>
+      </div>
+      
+      <!-- Stat Cards -->
+      <div class="card card-sm stat-card">
+        <div class="stat-title">Total deployments</div>
+        <div class="stat-value">1,284</div>
+        <div class="stat-change positive">
+          <i class="stat-icon fas fa-arrow-up"></i>
+          12.5% from last month
         </div>
       </div>
       
-      <div class="copyright">
-        &copy; 2025 Thena AI. All rights reserved.
+      <div class="card card-sm stat-card">
+        <div class="stat-title">Success rate</div>
+        <div class="stat-value">98.7%</div>
+        <div class="stat-change positive">
+          <i class="stat-icon fas fa-arrow-up"></i>
+          1.2% from last month
+        </div>
+      </div>
+      
+      <div class="card card-sm stat-card">
+        <div class="stat-title">Avg. response time</div>
+        <div class="stat-value">42ms</div>
+        <div class="stat-change positive">
+          <i class="stat-icon fas fa-arrow-down"></i>
+          8ms from last month
+        </div>
+      </div>
+      
+      <!-- Area Chart -->
+      <div class="card card-lg">
+        <div class="card-header">
+          <h3 class="card-title">System performance</h3>
+          <div class="card-actions">
+            <button class="card-action"><i class="fas fa-ellipsis-v"></i></button>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="performanceChart"></canvas>
+        </div>
+        <div class="chart-info">
+          <div class="chart-trend">
+            <i class="fas fa-arrow-up"></i> Trending up by 5.2% this month
+          </div>
+          <div class="chart-period">January - June 2025</div>
+        </div>
+      </div>
+      
+      <!-- Donut Chart -->
+      <div class="card card-sm">
+        <div class="card-header">
+          <h3 class="card-title">Resource usage</h3>
+          <div class="card-actions">
+            <button class="card-action"><i class="fas fa-ellipsis-v"></i></button>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="resourceUsageChart"></canvas>
+        </div>
+        <div class="chart-info">
+          <div class="chart-trend">
+            <i class="fas fa-arrow-up"></i> Trending up by 5.2% this month
+          </div>
+          <div class="chart-period">January - June 2025</div>
+        </div>
+      </div>
+      
+      <!-- Bar Chart -->
+      <div class="card card-md">
+        <div class="card-header">
+          <h3 class="card-title">API requests by endpoint</h3>
+          <div class="card-actions">
+            <button class="card-action"><i class="fas fa-ellipsis-v"></i></button>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="apiRequestsChart"></canvas>
+        </div>
+        <div class="chart-info">
+          <div class="chart-trend">
+            <i class="fas fa-arrow-up"></i> Trending up by 5.2% this month
+          </div>
+          <div class="chart-period">Showing total requests for the last 6 months</div>
+        </div>
+      </div>
+      
+      <!-- User Activity Card -->
+      <div class="card card-md">
+        <div class="card-header">
+          <h3 class="card-title">User activity</h3>
+          <div class="card-actions">
+            <button class="card-action"><i class="fas fa-ellipsis-v"></i></button>
+          </div>
+        </div>
+        
+        <div class="user-metrics">
+          <div class="user-metric">
+            <div class="user-metric-value">847</div>
+            <div class="user-metric-label">Active users</div>
+          </div>
+          <div class="user-metric">
+            <div class="user-metric-value">+12.4%</div>
+            <div class="user-metric-label">Growth</div>
+          </div>
+          <div class="user-metric">
+            <div class="user-metric-value">24.8m</div>
+            <div class="user-metric-label">Session time</div>
+          </div>
+        </div>
+        
+        <div class="user-activity-card">
+          <div class="user-avatar-sm" style="background-image: url('https://randomuser.me/api/portraits/women/32.jpg');"></div>
+          <div class="user-activity-content">
+            <div class="user-activity-name">Jamie Chen</div>
+            <div class="user-activity-action">Deployed API Gateway to production</div>
+          </div>
+          <div class="user-activity-time">10m ago</div>
+        </div>
+        
+        <div class="user-activity-card">
+          <div class="user-avatar-sm" style="background-image: url('https://randomuser.me/api/portraits/men/45.jpg');"></div>
+          <div class="user-activity-content">
+            <div class="user-activity-name">Taylor Kim</div>
+            <div class="user-activity-action">Updated Auth Service configuration</div>
+          </div>
+          <div class="user-activity-time">32m ago</div>
+        </div>
+        
+        <div class="user-activity-card">
+          <div class="user-avatar-sm" style="background-image: url('https://randomuser.me/api/portraits/women/68.jpg');"></div>
+          <div class="user-activity-content">
+            <div class="user-activity-name">Morgan Smith</div>
+            <div class="user-activity-action">Created new project: Frontend App</div>
+          </div>
+          <div class="user-activity-time">1h ago</div>
+        </div>
+        
+        <div class="user-activity-card">
+          <div class="user-avatar-sm" style="background-image: url('https://randomuser.me/api/portraits/men/22.jpg');"></div>
+          <div class="user-activity-content">
+            <div class="user-activity-name">Casey Jones</div>
+            <div class="user-activity-action">Started database migration on staging</div>
+          </div>
+          <div class="user-activity-time">2h ago</div>
+        </div>
+      </div>
+      
+      <!-- Recent Deployments Table -->
+      <div class="card card-full">
+        <div class="card-header">
+          <h3 class="card-title">Recent deployments</h3>
+          <div class="card-actions">
+            <button class="card-action"><i class="fas fa-ellipsis-v"></i></button>
+          </div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Project</th>
+                <th>Environment</th>
+                <th>Deployed by</th>
+                <th>Time</th>
+                <th>Duration</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#NX-5842</td>
+                <td>API Gateway</td>
+                <td><span class="badge badge-primary">Production</span></td>
+                <td>Jamie Chen</td>
+                <td>Today, 10:23 AM</td>
+                <td>45s</td>
+                <td><span class="status active">Success</span></td>
+              </tr>
+              <tr>
+                <td>#NX-5841</td>
+                <td>Auth Service</td>
+                <td><span class="badge badge-secondary">Staging</span></td>
+                <td>Taylor Kim</td>
+                <td>Today, 9:45 AM</td>
+                <td>1m 12s</td>
+                <td><span class="status active">Success</span></td>
+              </tr>
+              <tr>
+                <td>#NX-5840</td>
+                <td>Frontend App</td>
+                <td><span class="badge badge-primary">Production</span></td>
+                <td>Morgan Smith</td>
+                <td>Today, 9:12 AM</td>
+                <td>2m 08s</td>
+                <td><span class="status pending">In Progress</span></td>
+              </tr>
+              <tr>
+                <td>#NX-5839</td>
+                <td>Database Migration</td>
+                <td><span class="badge badge-secondary">Staging</span></td>
+                <td>Casey Jones</td>
+                <td>Yesterday, 4:30 PM</td>
+                <td>3m 47s</td>
+                <td><span class="status active">Success</span></td>
+              </tr>
+              <tr>
+                <td>#NX-5838</td>
+                <td>Analytics Service</td>
+                <td><span class="badge badge-primary">Production</span></td>
+                <td>Riley Wilson</td>
+                <td>Yesterday, 3:15 PM</td>
+                <td>1m 23s</td>
+                <td><span class="status inactive">Failed</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </footer>
-
-  <!-- Widget Settings Modal -->
+  </main>
+  
+  <!-- Widget Settings Modal - Added from Thena file -->
   <div id="widget-settings-modal" class="modal">
     <div class="modal-content">
       <span class="close-modal">&times;</span>
-      <h2>Widget Settings</h2>
+      <h2>Widget settings</h2>
       <form id="widget-settings-form">
         <div class="form-group">
           <label for="agent-id">Agent ID</label>
           <input type="text" id="agent-id" placeholder="Enter agent ID" required>
         </div>
         <div class="form-group">
-          <label for="api-key">API Key</label>
+          <label for="api-key">API key</label>
           <input type="text" id="api-key" placeholder="Enter API key" required>
         </div>
         <div class="form-group">
           <label for="base-url">Base URL</label>
-          <input type="text" id="base-url" placeholder="Enter base URL" value="https://agent-studio.thena.ai" required>
+          <input type="text" id="base-url" placeholder="Enter base URL" value="https://thena-agent-studio.thena.tools" required>
         </div>
         <div class="form-group">
-          <label for="ws-endpoint">WebSocket Endpoint</label>
-          <input type="text" id="ws-endpoint" placeholder="Enter WebSocket endpoint" value="wss://agent-studio.thena.ai" required>
+          <label for="ws-endpoint">WebSocket endpoint</label>
+          <input type="text" id="ws-endpoint" placeholder="Enter WebSocket endpoint" value="wss://thena-agent-studio.thena.tools" required>
         </div>
         <div class="form-group">
-          <label for="user-email">User Email</label>
+          <label for="user-email">User email</label>
           <input type="email" id="user-email" placeholder="Enter user email">
         </div>
         <div class="form-group">
-          <label for="user-name">User Name</label>
+          <label for="user-name">User name</label>
           <input type="text" id="user-name" placeholder="Enter user name">
         </div>
         <div class="form-group">
@@ -1114,19 +1186,274 @@
           <input type="text" id="hmac-secret" placeholder="Enter HMAC secret">
         </div>
         <div class="modal-buttons">
-          <button type="submit" class="cta-button">Save Settings</button>
+          <button type="submit" class="setup-button">Save settings</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Thena Web Chat Widget -->
+  <!-- Thena Web Chat Widget Container -->
+  <div id="thena-widget-container"></div>
+  
+  <script>
+    // Initialize charts when the DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      Chart.defaults.font.family = "'Inter', sans-serif";
+      Chart.defaults.color = "#6B7280";
+      Chart.defaults.scale.grid.drawBorder = false;
+      
+      // Performance Chart - Area Chart
+      const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+      const performanceChart = new Chart(performanceCtx, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+          datasets: [
+            {
+              label: 'Response time',
+              data: [68, 53, 78, 45, 63, 55],
+              borderColor: '#4361ee',
+              backgroundColor: (context) => {
+                const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, context.chart.height);
+                gradient.addColorStop(0, 'rgba(67, 97, 238, 0.3)');
+                gradient.addColorStop(1, 'rgba(67, 97, 238, 0)');
+                return gradient;
+              },
+              tension: 0.4,
+              fill: true,
+              borderWidth: 2,
+              pointRadius: 0,
+              pointHoverRadius: 0
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'nearest',
+            intersect: false,
+            axis: 'x'
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              backgroundColor: 'rgba(17, 24, 39, 0.8)',
+              padding: 12,
+              titleFont: {
+                size: 13
+              },
+              bodyFont: {
+                size: 12
+              },
+              cornerRadius: 4,
+              displayColors: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: 'rgba(0, 0, 0, 0.03)',
+                drawBorder: false
+              },
+              ticks: {
+                padding: 10,
+                display: false
+              },
+              border: {
+                display: false
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                padding: 10
+              },
+              border: {
+                display: false
+              }
+            }
+          },
+          elements: {
+            line: {
+              borderJoinStyle: 'round'
+            }
+          }
+        }
+      });
+      
+      // Resource Usage Chart - Donut with center text
+      const resourceUsageCtx = document.getElementById('resourceUsageChart').getContext('2d');
+      const resourceUsageChart = new Chart(resourceUsageCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Compute', 'Database', 'Storage', 'Network'],
+          datasets: [{
+            data: [1125, 634, 580, 720],
+            backgroundColor: [
+              '#4361ee',
+              '#7b9fff',
+              '#a3c4f3',
+              '#cfddff'
+            ],
+            borderWidth: 0,
+            hoverOffset: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '75%',
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              backgroundColor: 'rgba(17, 24, 39, 0.8)',
+              padding: 12,
+              titleFont: {
+                size: 13
+              },
+              bodyFont: {
+                size: 12
+              },
+              cornerRadius: 4,
+              displayColors: false
+            }
+          },
+          elements: {
+            arc: {
+              borderWidth: 0
+            }
+          }
+        },
+        plugins: [{
+          id: 'centerText',
+          beforeDraw: function(chart) {
+            const width = chart.width;
+            const height = chart.height;
+            const ctx = chart.ctx;
+            
+            ctx.restore();
+            
+            // Value text
+            const fontSize = (height / 200).toFixed(2) * 24;
+            ctx.font = `600 ${fontSize}px Inter`;
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#111827';
+            
+            const text = '3,059';
+            const textX = width / 2;
+            const textY = height / 2 - fontSize / 4;
+            ctx.textAlign = 'center';
+            ctx.fillText(text, textX, textY);
+            
+            // Label text
+            const labelFontSize = (height / 200).toFixed(2) * 10;
+            ctx.font = `400 ${labelFontSize}px Inter`;
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#6B7280';
+            
+            const labelText = 'Total resources';
+            const labelTextX = width / 2;
+            const labelTextY = height / 2 + fontSize / 2;
+            ctx.textAlign = 'center';
+            ctx.fillText(labelText, labelTextX, labelTextY);
+            
+            ctx.save();
+          }
+        }]
+      });
+      
+      // API Requests Chart - Bar Chart
+      const apiRequestsCtx = document.getElementById('apiRequestsChart').getContext('2d');
+      const apiRequestsChart = new Chart(apiRequestsCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+          datasets: [
+            {
+              label: 'API calls',
+              data: [120, 90, 150, 85, 130, 110],
+              backgroundColor: '#4361ee',
+              borderRadius: 4,
+              borderSkipped: false,
+              barPercentage: 0.5,
+              categoryPercentage: 0.7
+            },
+            {
+              label: 'Data transfers',
+              data: [70, 120, 90, 60, 110, 80],
+              backgroundColor: '#a3c4f3',
+              borderRadius: 4,
+              borderSkipped: false,
+              barPercentage: 0.5,
+              categoryPercentage: 0.7
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              backgroundColor: 'rgba(17, 24, 39, 0.8)',
+              padding: 12,
+              titleFont: {
+                size: 13
+              },
+              bodyFont: {
+                size: 12
+              },
+              cornerRadius: 4,
+              displayColors: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: 'rgba(0, 0, 0, 0.03)',
+                drawBorder: false
+              },
+              ticks: {
+                padding: 10,
+                display: false
+              },
+              border: {
+                display: false
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                padding: 10
+              },
+              border: {
+                display: false
+              }
+            }
+          }
+        }
+      });
+    });
+  </script>
+  
+  <!-- Widget Settings Script - Added from Thena file -->
   <script>
     // Define widget configuration as a global variable so it persists across reloads
     window.thenaWidget = {
       // No default values - will be set by user through settings
-      baseUrl: 'https://agent-studio.thena.ai',
-      wsEndpoint: 'wss://agent-studio.thena.ai'
     };
     
     // Function to save widget settings to localStorage to persist across page reloads
@@ -1150,10 +1477,54 @@
     
     // Load settings on page load
     loadWidgetSettings();
-  </script>
-  
-  <!-- Initialize Thena with anonymous user -->
-  <script>
+    
+    // Show toast notification
+    function showToast(message) {
+      let toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      // Trigger reflow to enable transition
+      void toast.offsetWidth;
+      toast.classList.add('show');
+      
+      setTimeout(function() {
+        toast.classList.remove('show');
+        setTimeout(function() {
+          document.body.removeChild(toast);
+        }, 300);
+      }, 3000);
+    }
+    
+    // Generate HMAC-SHA256 using Web Crypto API
+    async function generateHMAC(secret, message) {
+      const encoder = new TextEncoder();
+      const secretBuffer = encoder.encode(secret);
+      const messageBuffer = encoder.encode(message);
+      
+      // Import the secret key
+      const key = await window.crypto.subtle.importKey(
+        'raw',
+        secretBuffer,
+        { name: 'HMAC', hash: 'SHA-256' },
+        false,
+        ['sign']
+      );
+      
+      // Sign the message
+      const signature = await window.crypto.subtle.sign(
+        'HMAC',
+        key,
+        messageBuffer
+      );
+      
+      // Convert to hex string
+      return Array.from(new Uint8Array(signature))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+    }
+    
     document.addEventListener('DOMContentLoaded', function() {
       // Initialize Thena only if settings have been configured
       if (window.thena) {
@@ -1202,53 +1573,6 @@
           modal.style.display = 'block';
           showToast("Please configure the widget settings to continue");
         }, 500);
-      }
-      
-      // Show toast notification
-      function showToast(message) {
-        let toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.textContent = message;
-        document.body.appendChild(toast);
-        
-        // Trigger reflow to enable transition
-        void toast.offsetWidth;
-        toast.classList.add('show');
-        
-        setTimeout(function() {
-          toast.classList.remove('show');
-          setTimeout(function() {
-            document.body.removeChild(toast);
-          }, 300);
-        }, 3000);
-      }
-      
-      // Generate HMAC-SHA256 using Web Crypto API
-      async function generateHMAC(secret, message) {
-        const encoder = new TextEncoder();
-        const secretBuffer = encoder.encode(secret);
-        const messageBuffer = encoder.encode(message);
-        
-        // Import the secret key
-        const key = await window.crypto.subtle.importKey(
-          'raw',
-          secretBuffer,
-          { name: 'HMAC', hash: 'SHA-256' },
-          false,
-          ['sign']
-        );
-        
-        // Sign the message
-        const signature = await window.crypto.subtle.sign(
-          'HMAC',
-          key,
-          messageBuffer
-        );
-        
-        // Convert to hex string
-        return Array.from(new Uint8Array(signature))
-          .map(b => b.toString(16).padStart(2, '0'))
-          .join('');
       }
       
       // Handle form submission
@@ -1331,8 +1655,8 @@
       widgetScript.src = 'https://widget.thena.ai/shim.js';
       document.body.appendChild(widgetScript);
     } else {
-      // If we don't have valid settings, show our custom widget immediately
-      console.log('No valid widget settings found. Showing configuration widget.');
+      // If we don't have valid settings, show our custom widget button
+      console.log('No valid widget settings found. Showing configuration widget button.');
       document.addEventListener('DOMContentLoaded', showConfigurationWidget);
       // Also call it now in case DOM is already loaded
       if (document.readyState === 'complete' || document.readyState === 'interactive') {
@@ -1340,94 +1664,10 @@
       }
     }
     
-    // Function to display our custom configuration widget
+    // Function to display our custom configuration widget button
     function showConfigurationWidget() {
-      // Get or create the widget container
-      let widgetContainer = document.getElementById('thena-widget-container');
-      if (!widgetContainer) {
-        widgetContainer = document.createElement('div');
-        widgetContainer.id = 'thena-widget-container';
-        document.body.appendChild(widgetContainer);
-      }
-      
-      // Clear any existing content
-      widgetContainer.innerHTML = '';
-      
-      // Create our custom widget UI with settings button
-      const customWidget = document.createElement('div');
-      customWidget.id = 'thena-custom-widget';
-      customWidget.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 380px;
-        max-width: 90vw;
-        height: auto;
-        background: white;
-        border-radius: 16px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-        z-index: 10000;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        font-family: 'DM Sans', sans-serif;
-      `;
-      
-      // Widget header
-      const header = document.createElement('div');
-      header.style.cssText = `
-        padding: 20px;
-        background: #6A00FF;
-        color: white;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      `;
-      header.innerHTML = `
-        <div style="font-weight: 600; font-size: 18px;">Thena Chat Widget</div>
-        <div style="cursor: pointer; font-size: 24px;" id="thena-widget-close">×</div>
-      `;
-      
-      // Widget body
-      const body = document.createElement('div');
-      body.style.cssText = `
-        padding: 30px 20px;
-        text-align: center;
-      `;
-      body.innerHTML = `
-        <div style="font-size: 60px; margin-bottom: 10px;">⚙️</div>
-        <h3 style="margin: 0 0 10px; color: #333; font-size: 18px;">Widget Configuration Required</h3>
-        <p style="margin: 0 0 20px; color: #666; font-size: 14px;">
-          Please configure your API Key and Agent ID to initialize the chat widget.
-        </p>
-        <button id="thena-settings-btn-inline" style="
-          background: #6A00FF;
-          color: white;
-          border: none;
-          padding: 12px 24px;
-          border-radius: 6px;
-          font-weight: 500;
-          cursor: pointer;
-          font-size: 14px;
-          transition: background-color 0.2s;
-        ">Configure Widget</button>
-      `;
-      
-      // Add our custom UI to the container
-      customWidget.appendChild(header);
-      customWidget.appendChild(body);
-      widgetContainer.appendChild(customWidget);
-      
-      // Add event listeners
-      document.getElementById('thena-widget-close').addEventListener('click', function() {
-        customWidget.style.display = 'none';
-        // Show the settings button when widget is closed
-        showSettingsButton();
-      });
-      
-      document.getElementById('thena-settings-btn-inline').addEventListener('click', function() {
-        document.getElementById('widget-settings-modal').style.display = 'block';
-      });
+      // Show the settings button
+      showSettingsButton();
     }
     
     // Function to show floating settings button
@@ -1438,41 +1678,15 @@
       
       const btn = document.createElement('div');
       btn.id = 'thena-settings-button';
-      btn.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        background: #6A00FF;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        box-shadow: 0 4px 12px rgba(106, 0, 255, 0.25);
-        z-index: 999;
-        font-size: 24px;
-      `;
-      btn.innerHTML = '⚙️';
+      btn.innerHTML = '<i class="fas fa-comment-dots"></i>';
       document.body.appendChild(btn);
       
       btn.addEventListener('click', function() {
         btn.style.display = 'none';
-        // Either show the configuration widget or open settings modal directly
-        const customWidget = document.getElementById('thena-custom-widget');
-        if (customWidget) {
-          customWidget.style.display = 'flex';
-        } else {
-          document.getElementById('widget-settings-modal').style.display = 'block';
-        }
+        // Open settings modal
+        document.getElementById('widget-settings-modal').style.display = 'block';
       });
     }
   </script>
-  
-  <!-- Thena Web Chat Widget Container -->
-  <div id="thena-widget-container"></div>
 </body>
 </html>
-
