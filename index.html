@@ -830,6 +830,23 @@
     .setup-button:hover {
       background-color: var(--primary-dark);
     }
+
+    .theme-preset {
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      color: white;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      min-width: 60px;
+    }
+
+    .theme-preset:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
   </style>
 </head>
 <body>
@@ -1185,6 +1202,36 @@
           <label for="hmac-secret">HMAC Secret (for authentication)</label>
           <input type="text" id="hmac-secret" placeholder="Enter HMAC secret">
         </div>
+        <div class="form-group">
+          <label for="theme-color">Theme Color (hex code)</label>
+          <input type="text" id="theme-color" placeholder="e.g., #ff6b35" pattern="^#[A-Fa-f0-9]{6}$">
+          <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+            <button type="button" class="theme-preset" data-color="#4361ee" style="background: #4361ee;">Blue</button>
+            <button type="button" class="theme-preset" data-color="#ff6b35" style="background: #ff6b35;">Orange</button>
+            <button type="button" class="theme-preset" data-color="#10b981" style="background: #10b981;">Green</button>
+            <button type="button" class="theme-preset" data-color="#8b5cf6" style="background: #8b5cf6;">Purple</button>
+            <button type="button" class="theme-preset" data-color="#f59e0b" style="background: #f59e0b;">Yellow</button>
+            <button type="button" class="theme-preset" data-color="#ef4444" style="background: #ef4444;">Red</button>
+          </div>
+          <small style="color: #6B7280; font-size: 12px; margin-top: 4px; display: block;">
+            Enter a hex color to customize the widget theme or click a preset. Leave empty for default blue theme.
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="brand-logo-url">Brand Logo URL</label>
+          <input type="url" id="brand-logo-url" placeholder="e.g., https://example.com/logo.png">
+          <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+            <button type="button" class="theme-preset" data-logo="https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg" style="background: #4361ee;">SVG</button>
+            <button type="button" class="theme-preset" data-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/64px-React-icon.svg.png" style="background: #ff6b35;">PNG</button>
+            <button type="button" class="theme-preset" data-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/64px-Python-logo-notext.svg.jpg" style="background: #10b981;">JPG</button>
+            <button type="button" class="theme-preset" data-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/64px-HTML5_logo_and_wordmark.svg.jpeg" style="background: #f59e0b;">JPEG</button>
+            <button type="button" class="theme-preset" data-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/CSS3_logo_and_wordmark.svg/64px-CSS3_logo_and_wordmark.svg.webp" style="background: #8b5cf6;">WebP</button>
+            <button type="button" class="theme-preset" data-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/48px-Typescript_logo_2020.svg.png" style="background: #61dafb;">Small PNG</button>
+          </div>
+          <small style="color: #6B7280; font-size: 12px; margin-top: 4px; display: block;">
+            Enter a public URL to your brand logo (supports SVG, PNG, JPG, JPEG, WebP). Leave empty to use default Thena logo.
+          </small>
+        </div>
         <div class="modal-buttons">
           <button type="submit" class="setup-button">Save settings</button>
         </div>
@@ -1452,15 +1499,14 @@
   <!-- Widget Settings Script - Added from Thena file -->
   <script>
     // Define widget configuration as a global variable so it persists across reloads
-    window.thenaWidget = {
-      // No default values - will be set by user through settings
-    };
-    
+    window.thenaWidget = {};
+    window.thenaWidgetConfig = {};
+
     // Function to save widget settings to localStorage to persist across page reloads
     function saveWidgetSettings() {
-      localStorage.setItem('thenaWidgetSettings', JSON.stringify(window.thenaWidget));
+      localStorage.setItem('thenaWidgetSettings', JSON.stringify(window.thenaWidgetConfig));
     }
-    
+
     // Function to load widget settings from localStorage
     function loadWidgetSettings() {
       const savedSettings = localStorage.getItem('thenaWidgetSettings');
@@ -1468,13 +1514,20 @@
         try {
           const settings = JSON.parse(savedSettings);
           window.thenaWidget = settings;
-          console.log('Loaded saved widget settings:', settings);
+          window.thenaWidgetConfig = settings;
+          console.log('Loaded saved widget settings into window.thenaWidget and window.thenaWidgetConfig:', settings);
         } catch (e) {
           console.error('Error loading saved widget settings:', e);
+          localStorage.removeItem('thenaWidgetSettings');
+          window.thenaWidget = {};
+          window.thenaWidgetConfig = {};
         }
+      } else {
+        window.thenaWidget = {};
+        window.thenaWidgetConfig = {};
       }
     }
-    
+
     // Load settings on page load
     loadWidgetSettings();
     
@@ -1543,6 +1596,8 @@
         document.getElementById('api-key').value = window.thenaWidget.apiKey || '';
         document.getElementById('base-url').value = window.thenaWidget.baseUrl || '';
         document.getElementById('ws-endpoint').value = window.thenaWidget.wsEndpoint || '';
+        document.getElementById('theme-color').value = window.thenaWidget.themeColor || '';
+        document.getElementById('brand-logo-url').value = window.thenaWidget.brandLogoUrl || '';
         
         if (window.thenaWidget.user) {
           document.getElementById('user-email').value = window.thenaWidget.user.email || '';
@@ -1567,14 +1622,6 @@
         }
       });
       
-      // Auto-open settings modal if no settings configured
-      if (!window.thenaWidget.agentId || !window.thenaWidget.apiKey) {
-        setTimeout(() => {
-          modal.style.display = 'block';
-          showToast("Please configure the widget settings to continue");
-        }, 500);
-      }
-      
       // Handle form submission
       form.addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -1587,13 +1634,51 @@
         const userEmail = document.getElementById('user-email').value.trim();
         const userName = document.getElementById('user-name').value.trim();
         const hmacSecret = document.getElementById('hmac-secret').value.trim();
+        const themeColor = document.getElementById('theme-color').value.trim();
+        const brandLogoUrl = document.getElementById('brand-logo-url').value.trim();
         
-        // Update thenaWidget configuration
-        window.thenaWidget.agentId = agentId;
-        window.thenaWidget.apiKey = apiKey;
-        window.thenaWidget.baseUrl = baseUrl;
-        window.thenaWidget.wsEndpoint = wsEndpoint;
-        
+        // Prepare the settings object
+        const currentConfig = {
+          agentId: agentId,
+          apiKey: apiKey,
+          baseUrl: baseUrl,
+          wsEndpoint: wsEndpoint,
+          user: undefined // Initialize user object
+        };
+
+        // Add theme color if provided
+        if (themeColor) {
+          currentConfig.themeColor = themeColor;
+          console.log('Setting theme color to:', themeColor);
+        } else {
+          // Remove theme color if empty (to use default)
+          delete currentConfig.themeColor;
+          console.log('Removing theme color, using default');
+        }
+
+        // Add brand logo URL if provided
+        if (brandLogoUrl) {
+          currentConfig.brandLogoUrl = brandLogoUrl;
+          console.log('✅ Setting brand logo URL to:', brandLogoUrl);
+
+          // Test if the URL is accessible
+          fetch(brandLogoUrl, { method: 'HEAD' })
+            .then(response => {
+              if (response.ok) {
+                console.log('✅ Brand logo URL is accessible:', response.status);
+              } else {
+                console.warn('⚠️ Brand logo URL returned status:', response.status);
+              }
+            })
+            .catch(error => {
+              console.error('❌ Brand logo URL test failed:', error);
+            });
+        } else {
+          // Remove brand logo URL if empty (to use default)
+          delete currentConfig.brandLogoUrl;
+          console.log('🔄 Removing brand logo URL, using default');
+        }
+
         // If user authentication is provided
         if (userEmail && userName && hmacSecret) {
           // Create message payload for HMAC (email:name)
@@ -1604,7 +1689,7 @@
             const hash = await generateHMAC(hmacSecret, messagePayload);
             
             // Set user details with hash
-            window.thenaWidget.user = {
+            currentConfig.user = {
               email: userEmail,
               name: userName,
               hash: hash
@@ -1617,17 +1702,23 @@
             return;
           }
         } else if (userEmail || userName) {
-          // Set user details without hash (anonymous)
-          window.thenaWidget.user = {
+          currentConfig.user = {
             email: userEmail,
             name: userName
           };
         }
-        
+
+        // Update both window configuration objects
+        window.thenaWidget = { ...currentConfig };
+        window.thenaWidgetConfig = { ...currentConfig };
+
+        console.log("Updated window.thenaWidget:", window.thenaWidget);
+        console.log("Updated window.thenaWidgetConfig:", window.thenaWidgetConfig);
+
         // Close the modal
         modal.style.display = 'none';
         
-        // Save settings to localStorage
+        // Save settings to localStorage (will save window.thenaWidgetConfig)
         saveWidgetSettings();
         
         // Show toast
@@ -1639,16 +1730,47 @@
           window.location.reload();
         }, 1000);
       });
+
+      // Handle theme preset button clicks
+      document.querySelectorAll('.theme-preset').forEach(button => {
+        button.addEventListener('click', function() {
+          const color = this.getAttribute('data-color');
+          const logo = this.getAttribute('data-logo');
+
+          if (color) {
+            document.getElementById('theme-color').value = color;
+          }
+
+          if (logo) {
+            document.getElementById('brand-logo-url').value = logo;
+          }
+        });
+      });
+
+      // Auto-open settings modal if no settings configured
+      if (!window.thenaWidget.agentId || !window.thenaWidget.apiKey) {
+        setTimeout(() => {
+          modal.style.display = 'block';
+          showToast("Please configure the widget settings to continue");
+        }, 500);
+      }
     });
   </script>
   
   <!-- Load the widget script conditionally -->
   <script>
     // Check if we have the required settings before loading the widget script
-    const hasValidSettings = window.thenaWidget && 
-                            window.thenaWidget.apiKey && 
-                            window.thenaWidget.agentId;
-    
+    const hasValidSettings = window.thenaWidgetConfig &&
+                            window.thenaWidgetConfig.apiKey &&
+                            window.thenaWidgetConfig.agentId;
+
+    console.log('Checking for valid settings:', {
+      hasConfig: !!window.thenaWidgetConfig,
+      hasApiKey: !!window.thenaWidgetConfig?.apiKey,
+      hasAgentId: !!window.thenaWidgetConfig?.agentId,
+      isValid: hasValidSettings
+    });
+
     // Only load the widget script if we have valid settings
     if (hasValidSettings) {
       const widgetScript = document.createElement('script');
@@ -1682,7 +1804,9 @@
       document.body.appendChild(btn);
       
       btn.addEventListener('click', function() {
-        btn.style.display = 'none';
+        // DO NOT hide the button on click anymore
+        // btn.style.display = 'none';
+
         // Open settings modal
         document.getElementById('widget-settings-modal').style.display = 'block';
       });
